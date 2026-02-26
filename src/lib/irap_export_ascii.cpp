@@ -25,14 +25,14 @@ void write_header_ascii(const irap_header& header, std::ostream& out) {
 void write_values_ascii(surf_span values, std::ostream& out) {
   out << std::setprecision(4) << std::fixed << std::showpoint;
   size_t values_on_current_line = 0;
-  auto rows = values.extent(0);
-  auto cols = values.extent(1);
-  for (size_t j = 0; j < cols; j++) {
-    for (size_t i = 0; i < rows; i++) {
+  auto cols = values.extent(0);
+  auto rows = values.extent(1);
+  for (size_t row = 0; row < rows; row++) {
+    for (size_t col = 0; col < cols; col++) {
 #if __cpp_multidimensional_subscript
-      auto v = values[i, j];
+      auto v = values[col, row];
 #else
-      auto v = values(i, j);
+      auto v = values(col, row);
 #endif
       out << (std::isnan(v) ? UNDEF_MAP_IRAP_STRING : std::format("{:f}", v));
 
